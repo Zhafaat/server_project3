@@ -67,13 +67,17 @@ class AccountController {
     }
 
     static async updateAccount(req, res, next){
+        console.log('adakah?')
         try {
             const body = req.body
-
-            const password = req.body.password
-            const encryptPassword = encryptPass(password)
-            body.password = encryptPassword
-
+            
+            if(req.body.password) {
+                const password = req.body.password
+                const encryptPassword = encryptPass(password)
+                body.password = encryptPassword
+            }
+            
+            console.log(req.body, '=== adaji')
             const id = req.loginUser.id
             const data = await Account.update(body, { // data in body include firtsName, lastName, displayName, email, or password
                 where: {
@@ -131,13 +135,13 @@ class AccountController {
                 } else {
                     throw {
                         status: 404,
-                        msg: 'wrong email/password'
+                        msg: 'wrong password'
                     }
                 }
             } else {
                 throw{
                     status: 404,
-                    msg: 'wrong email/password'
+                    msg: 'wrong email'
                 }
             }
         } catch (error) {

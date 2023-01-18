@@ -5,7 +5,7 @@ async function authentication(req, res, next){
     try {
         const access_token = req.headers.access_token
         const decode = await hasToken(access_token)
-        console.log(decode, "=== adakah?")
+        // console.log(decode, "=== adakah?")
         const getAccount = await Account.findOne({
             where: {
                 id : decode.id
@@ -15,7 +15,9 @@ async function authentication(req, res, next){
 
         if(getAccount){
             req.loginUser = decode
+            console.log(req.loginUser, '=== sampai')
             next()
+            
         } else{
             throw {
                 status: 401,
